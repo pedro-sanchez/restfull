@@ -1,0 +1,3 @@
+function raduken(){
+	alert("hahaha");
+}

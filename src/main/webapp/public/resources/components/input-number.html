@@ -1,0 +1,15 @@
+<div class="form-group sgr-form-group">
+	<label class="control-label" for="{{id}}">{{label}}:<b ng-if="ngRequired" style="color: red;" >&nbsp;*</b></label>
+
+	<input type="text" id="{{id}}" name="{{id}}"
+		data-toggle="tooltip" data-placement="top"
+		title="{{tooltip}}"
+		placeholder="{{placeholder}}"
+		ng-model="ngModel"
+		ng-disabled="ngDisabled"
+		ng-required="ngRequired"
+		ng-change="onChangeDirective();"
+		ng-blur="ngBlur();"
+		class="form-control"
+	/>
+</div>

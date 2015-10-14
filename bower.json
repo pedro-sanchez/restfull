@@ -1,0 +1,64 @@
+{
+  "name": "restfull",
+  "version": "0.0.1",
+  "authors": [
+    "Pedro Sanchez"
+  ],
+  "main": [
+    "src/main/webapp/resources/js/main.js",
+    "src/main/webapp/resources/js/main2.js",
+    "src/main/webapp/resources/css/main.css"
+  ],
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "bootstrap": "~3.3.5",
+    "modernizr": "~2.8.3",
+    "angular": "1.4.5",
+    "angular-route": "1.4.5",
+    "angular-animate": "1.4.5",
+    "angularAMD": "0.2.1",
+    "requirejs": "2.1.19"
+  },
+  "exportsOverride": {
+    "bootstrap": {
+      "js": "dist/js/*.min.js",
+      "css": "dist/css/*.min.css",
+      "fonts": "dist/fonts/*.*"
+    },
+    "jquery": {
+      "": "dist/*.min.js"
+    },
+    "angular": {
+      "": "angular.min.js"
+    },
+    "angular-route": {
+      "": "angular-route.min.js"
+    },
+    "angular-animate": {
+      "": "angular-animate.min.js"
+    },
+    "angularAMD": {
+      "": "*.min.js"
+    },
+    "requirejs": {
+      "": "require.js"
+    },
+    "modernizr": {
+      "": "modernizr.js"
+    }
+  },
+  "private": true
+}

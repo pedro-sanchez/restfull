@@ -1,0 +1,14 @@
+<div class="form-group sgr-form-group" >
+	<label ng-if="hasLabel()" class="control-label" for="{{id}}">{{label}}:<b ng-if="ngRequired" style="color: red;" >&nbsp;*</b></label>
+
+	<input type="checkbox" id="{{id}}" name="{{id}}"
+		data-toggle="tooltip" data-placement="top"
+		title="{{tooltip}}"
+		ng-model="ngModel"
+		ng-disabled="ngDisabled"
+		ng-required="ngRequired"
+		ng-click="ngClick()"
+		class="form-control check-box"
+	/>
+
+</div>

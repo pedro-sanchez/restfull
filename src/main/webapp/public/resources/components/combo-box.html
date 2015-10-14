@@ -1,0 +1,17 @@
+<div class="form-group sgr-form-group" >
+	<label ng-if="hasLabel()" class="control-label" for="{{id}}">{{label}}:<b ng-if="ngRequired" style="color: red;" >&nbsp;*</b></label>
+
+	<select id="{{id}}" name="{{id}}"
+		data-toggle="tooltip" data-placement="top"
+		title="{{tooltip}}"
+		ng-model="ngModel"
+		ng-disabled="ngDisabled"
+		ng-required="ngRequired"
+		ng-change="ngChange();"
+		ng-blur="ngBlur();"
+		class="form-control">
+
+		<option value="">{{emptyMessage}}</option>
+		<option ng-repeat="option in options" value="{{selectValue(option)}}">{{option[name]}}</option>
+	</select>
+</div>

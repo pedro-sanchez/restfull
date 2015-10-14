@@ -1,0 +1,77 @@
+<div class="form-group sgr-form-group" >
+	<label ng-if="hasLabel()" class="control-label" for="{{id}}">{{label}}:<b ng-if="ngRequired" style="color: red;" >&nbsp;*</b></label>
+
+	<select type="text" id="{{id}}" name="{{id}}"
+		data-toggle="tooltip" data-placement="top"
+		title="{{tooltip}}"
+		ng-model="ngModel"
+		ng-disabled="ngDisabled"
+		ng-required="ngRequired"
+		ng-change="onChangeDirective();"
+		ng-blur="ngBlur();"
+		class="form-control">
+
+		<option value="">{{emptyMessage}}</option>
+		<option ng-repeat="option in options" value="{{option[id]}}">{{option[name]}}</option>
+	</select>
+</div>
+
+<!--
+app.directive('comboBox', ['$parse', '$http',
+function($parse, $http) {
+
+	return {
+		restrict : 'E',
+        scope: {
+        	id: '=id',
+        	label: '=label',
+        	ngModel: '=',
+        	ngDisabled: '=',
+        	ngRequired: '=',
+        	options: '=',
+            ngChange: '&',
+            ngBlur: '&'
+        },
+        require : '?ngModel',
+		templateUrl : 'public/resources/components/combo-box.html',
+		link : function(scope, element, attrs, ngModelCtrl) {
+
+			scope.id = attrs.id;
+			scope.label = attrs.label;
+			scope.tooltip = attrs.tooltip;
+			scope.emptyMessage = attrs.emptyMessage;
+			scope.value = attrs.value;
+			scope.name = attrs.name;
+
+			if ($.isEmptyObject(attrs.emptyMessage)) {
+				scope.emptyMessage = "select.default";
+			}
+			if ($.isEmptyObject(attrs.value)) {
+				scope.value = "id";
+			}
+			if ($.isEmptyObject(attrs.name)) {
+				scope.name = "nome";
+			}
+
+			var input = $(element).contents()[0];
+
+			input = ($(input).find("input")[0]);
+
+			scope.onChangeDirective = function () {
+				if(!$.isEmptyObject(attrs.mascara)){
+					scope.ngModel = eval(attrs.mascara+"('"+scope.ngModel+"')");
+				}
+				scope.ngChange();
+			}
+
+			if (!$.isEmptyObject(attrs.autofocus) && attrs.autofocus) {
+				$(input).attr("autofocus", "true");
+			}
+
+			scope.hasLabel = function () {
+				return !$.isEmptyObject(attrs.label);
+			}
+
+		}
+	};
+}]); -->
