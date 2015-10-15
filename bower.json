@@ -42,6 +42,9 @@
     "jquery": {
       "": "dist/*.min.js"
     },
+    "jquery-i18n-properties": {
+      "": "*.js"
+    },
     "angular": {
       "": "angular.min.js"
     },
