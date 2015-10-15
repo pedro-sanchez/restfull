@@ -24,6 +24,7 @@
   ],
   "dependencies": {
     "jquery": "~2.1.4",
+    "jquery-i18n-properties": "~1.2.0",
     "bootstrap": "~3.3.5",
     "modernizr": "~2.8.3",
     "angular": "1.4.5",
