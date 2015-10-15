@@ -13,7 +13,7 @@ function($parse, $http) {
 		templateUrl : 'public/resources/components/input-label.html',
 		link : function(scope, element, attrs) {
 			scope.forId = attrs.forId;
-			scope.label = attrs.label;
+			scope.label = i18n(attrs.label);
 			scope.required = attrs.ngRequired;
 		}
 	};
@@ -39,7 +39,7 @@ function($parse, $http) {
 		link : function(scope, element, attrs, ngModelCtrl) {
 
 			scope.id = attrs.id;
-			scope.label = attrs.label;
+			scope.label = i18n(attrs.label);
 			scope.tooltip = attrs.tooltip;
 			scope.placeholder = attrs.placeholder;
 

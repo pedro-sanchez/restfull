@@ -5,11 +5,13 @@ module.exports = function(grunt) {
 	var imgDir = webappDir + 'resources/img/';
 	var angularDir = webappDir + 'resources/app/';
 	var componentDir = webappDir + 'resources/components/';
+	var i18nDir = webappDir + 'resources/bundle/';
 
 	var dstDir = webappDir + 'public/';
 	var bowerDir = dstDir + 'vendor/';
 	var dstAngularDir = dstDir + 'resources/app/';
 	var dstComponentDir = dstDir + 'resources/components/';
+	var dstI18nDir = dstDir + 'resources/bundle/';
 	var dstCssDir = dstDir + 'resources/css/';
 	var dstJsDir = dstDir + 'resources/js/';
 	var dstImgDir = dstDir + 'resources/img/';
@@ -44,6 +46,12 @@ module.exports = function(grunt) {
 				cwd : componentDir,
 				src : [ '**/*' ],
 				dest : dstComponentDir
+			},
+			i18n : {
+				expand : true,
+				cwd : i18nDir,
+				src : [ '**/*' ],
+				dest : dstI18nDir
 			}
 		},
 		uglify : {
