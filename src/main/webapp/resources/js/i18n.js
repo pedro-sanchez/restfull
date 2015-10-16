@@ -3,7 +3,7 @@ jQuery.i18n.properties({
     path:'/restfull/resources/bundle/',
     mode:'map',
     cache : true,
-    language:'pt_br',
+    language:'pt_BR',
 });
 
 var i18nArg = function(args) {
