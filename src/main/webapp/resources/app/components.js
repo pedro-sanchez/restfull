@@ -12,7 +12,6 @@ app.service('baseInput', [ function() {
 			return !$.isEmptyObject(attrs.label);
 		}
 	};
-
 	baseInput.autofocus = function(autofocus, element, selectorType) {
 		if (!$.isEmptyObject(autofocus) && autofocus){
 			var input = $(element).contents()[0];
@@ -135,8 +134,6 @@ function($parse, $http, baseInput) {
 	};
 }]);
 
-
-
 app.directive('comboBox', ['$parse', '$http', 'baseInput',
 function($parse, $http, baseInput) {
 
@@ -175,6 +172,93 @@ function($parse, $http, baseInput) {
 				return option[attrs.value];
 			}
 
+		}
+	};
+}]);
+
+app.directive('baseButton', ['$parse', '$http', 'baseInput',
+function($parse, $http, baseInput) {
+	return {
+		restrict : 'E',
+        scope: {
+        	id: '=id',
+        	label: '=label',
+        	ngDisabled: '=',
+        	ngClick: '&'
+        },
+		templateUrl : 'public/resources/components/button.html',
+		link : function(scope, element, attrs, ngModelCtrl) {
+			baseInput.base(scope, attrs);
+			scope.class = attrs.class;
+			scope.icon = attrs.icon;
+
+			scope.hasIcon = function () {
+				return !$.isEmptyObject(attrs.icon);
+			}
+
+			scope.internalClick = function () {
+				ngClick();
+			}
+		}
+	};
+}]);
+
+
+
+app.directive('confirmButton', ['$parse', '$http', 'baseInput',
+function($parse, $http, baseInput) {
+	return {
+		restrict : 'E',
+        scope: {
+        	id: '=id',
+        	label: '=label',
+        	ngDisabled: '=',
+        	yesCallback: '&',
+        	noCallback: '&'
+        },
+		templateUrl : 'public/resources/components/button.html',
+		link : function(scope, element, attrs, ngModelCtrl) {
+			baseInput.base(scope, attrs);
+			scope.class = attrs.class;
+			scope.icon = attrs.icon;
+
+			scope.hasIcon = function () {
+				return !$.isEmptyObject(attrs.icon);
+			}
+
+			scope.title = attrs.title;
+			scope.message = attrs.message;
+
+			scope.yes = attrs.yes;
+			if ($.isEmptyObject(attrs.yes)) {
+				scope.yes = "fw.btn.yes";
+			}
+
+			scope.yesTitle = attrs.yesTitle;
+			if ($.isEmptyObject(attrs.yesTitle)) {
+				scope.yesTitle = "fw.btn.yes.tooltip";
+			}
+
+			scope.no = attrs.no;
+			if ($.isEmptyObject(attrs.no)) {
+				scope.no = "fw.btn.no";
+			}
+
+			scope.noTitle = attrs.noTitle;
+			if ($.isEmptyObject(attrs.noTitle)) {
+				scope.noTitle = "fw.btn.no.tooltip";
+			}
+
+			scope.title = i18n(scope.title);
+			scope.message = i18n(scope.message);
+			scope.yes = i18n(scope.yes);
+			scope.yesTitle = i18n(scope.yesTitle);
+			scope.no = i18n(scope.no);
+			scope.noTitle = i18n(scope.noTitle);
+
+			scope.internalClick = function () {
+				confirmDialog(scope.title, scope.message, scope.yes, scope.yesTitle, scope.yesCallback, scope.no, scope.noTitle, scope.noCallback);
+			}
 		}
 	};
 }]);

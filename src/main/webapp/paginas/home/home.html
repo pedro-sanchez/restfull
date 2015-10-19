@@ -55,6 +55,11 @@
 			autofocus="false"
 			ng-required="true"></combo-box>
 
-
 	{{entity.estadoId}}
+
+
+	<base-button id="btnSave" label="fw.save" class="btn-success" ng-click="save()" icon="glyphicon glyphicon-floppy-disk"></base-button>
+
+	<confirm-button id="btnSave" label="fw.delete" title="delete.title" message="delete.message" class="btn-danger" icon="glyphicon glyphicon-minus" yes-callback="remover();" no-callback="naoRemover();"></confirm-button>
+
 </form>

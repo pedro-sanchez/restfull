@@ -1,0 +1,9 @@
+<button type="button" id="{{id}}" name="{{id}}"
+		data-toggle="tooltip" data-placement="top"
+		title="{{tooltip}}"
+		ng-disabled="ngDisabled"
+		class="btn {{class}}"
+		ng-click="internalClick();">
+	<span ng-if="hasIcon()" class="{{icon}}" aria-hidden="true"></span>
+	<span>{{label}}</span>
+</button>

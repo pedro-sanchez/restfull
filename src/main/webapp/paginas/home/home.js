@@ -21,5 +21,17 @@ app.register.controller('HomeCtrl', ['$scope', '$http', function($scope, $http) 
 		$scope.valor = $scope.valor + result;
 	});
 
+	$scope.save = function(){
+		alert("salvou");
+	};
+
+	$scope.remover = function(){
+		alert("removeu");
+	};
+
+	$scope.naoRemover = function(){
+		alert("aborta");
+	};
+
 
 }]);
