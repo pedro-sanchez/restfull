@@ -1,0 +1,12 @@
+<div class="panel {{panelClass}}">
+	<div class="panel-heading">
+		<a id="{{linkId}}" role="button"  data-toggle="collapse" onclick="accordionToggle(this);" >
+			<h4 class="panel-title">
+				 <i class="{{icon}}"></i>
+				 <span>{{panelTitle}}</span>
+			</h4>
+		</a>
+	</div>
+	<div id="{{contentId}}" class="panel-collapse collapse paddedContainer in" ng-transclude>
+	</div>
+</div>

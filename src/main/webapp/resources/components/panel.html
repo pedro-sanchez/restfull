@@ -1,0 +1,9 @@
+<div class="panel {{panelClass}}">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<i ng-if="hasIcon()" class="{{icon}}"></i>
+			<span>{{panelTitle}}</span>
+		</h3>
+	</div>
+	<div ng-transclude></div>
+</div>
