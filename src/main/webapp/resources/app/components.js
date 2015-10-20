@@ -1,5 +1,71 @@
 'use strict';
 
+/*
+var MyApp = angular.module('MyApp',[]);
+
+MyApp.controller('MyCtrl',function($scope, myService){
+    angular.extend($scope, myService);
+    $scope.myFunc();
+});
+
+MyApp.factory('myService',function(){
+    return {
+        sky: "blue",
+        myFunc: function(){
+            console.log("do stuff 'n what not");
+        },
+        changeSky: function(val) {
+            this.sky = val;
+        }
+    };
+});
+
+*/
+
+app.factory('baseController', function() {
+	return {
+		baseURL:"",
+		entity:{},
+		selectedId:null,
+		itens:[],
+		list:function(){
+			//TODO do list
+		},
+		select:function(selected){
+			this.selectedId = selected;
+		},
+		hasSelected:function(){
+			if (this.selectedId) {
+				return true;
+			}
+
+			return false;
+		},
+		newRegister:function(){
+			this.entity = {};
+		},
+		editRegister:function(){
+			if (!this.hasSelected()) {
+				//TODO error message
+				return;
+			}
+
+			//TODO do get call
+		},
+		deleteRegister:function(){
+			if (!this.hasSelected()) {
+				//TODO error message
+				return;
+			}
+
+			//TODO do delete call
+		},
+		save:function(){
+
+		}
+	}
+});
+
 app.service('baseInput', [ function() {
 	var baseInput = {};
 
