@@ -262,3 +262,52 @@ function($parse, $http, baseInput) {
 		}
 	};
 }]);
+
+app.directive('panel', ['$parse', '$http', 'baseInput',
+function($parse, $http, baseInput) {
+	return {
+		restrict : 'E',
+        transclude: true,
+        scope: {
+        	'':'='
+        },
+		templateUrl : 'public/resources/components/panel.html',
+		link : function(scope, element, attrs, ngModelCtrl) {
+			scope.panelTitle = i18n(attrs.panelTitle);
+			scope.panelClass = attrs.panelClass;
+			scope.icon = attrs.icon;
+			scope.hasIcon = function () {
+				return !$.isEmptyObject(attrs.icon);
+			}
+
+
+		}
+	};
+}]);
+
+app.directive('accordion', ['$parse', '$http', 'baseInput',
+function($parse, $http, baseInput) {
+	return {
+		restrict : 'E',
+        transclude: true,
+        scope: {
+        	'':'='
+        },
+		require : '?panelTitle',
+		templateUrl : 'public/resources/components/accordion.html',
+		link : function(scope, element, attrs, ngModelCtrl) {
+			scope.panelTitle = i18n(attrs.panelTitle);
+			scope.panelClass = attrs.panelClass;
+			scope.icon = attrs.icon;
+			scope.contentId = attrs.contentId;
+			scope.linkId = "lk"+attrs.contentId;
+
+			if ($.isEmptyObject(attrs.icon)) {
+				scope.icon = "glyphicon glyphicon-chevron-down";
+			}
+
+		}
+	};
+}]);
+
+
