@@ -24,11 +24,16 @@ MyApp.factory('myService',function(){
 
 app.factory('baseController', function() {
 	return {
+		mode:"LIST_MODE",
 		baseURL:"",
 		entity:{},
 		selectedId:null,
 		itens:[],
+		getURL:function(){
+			return this.baseURL;
+		},
 		list:function(){
+			this.itens = [];
 			//TODO do list
 		},
 		select:function(selected){
@@ -41,8 +46,20 @@ app.factory('baseController', function() {
 
 			return false;
 		},
-		newRegister:function(){
+		loadDependencies:function(){//this method used to load list for combo etc;
+
+		},
+		reset:function(){//this method can be override to custons resets
+
+		},
+		baseReset:function(){
 			this.entity = {};
+			this.reset();
+		},
+		newRegister:function(){
+			this.baseReset();
+			this.mode = "EDIT_MODE";
+			loadDependencies();
 		},
 		editRegister:function(){
 			if (!this.hasSelected()) {
@@ -50,7 +67,10 @@ app.factory('baseController', function() {
 				return;
 			}
 
+			this.baseReset();
 			//TODO do get call
+			this.mode = "EDIT_MODE";
+			loadDependencies();
 		},
 		deleteRegister:function(){
 			if (!this.hasSelected()) {
@@ -61,7 +81,15 @@ app.factory('baseController', function() {
 			//TODO do delete call
 		},
 		save:function(){
-
+			//TODO do save call
+			this.cancel();
+		},
+		savePlus:function(){
+			//TODO do save call
+			this.baseReset();
+		},
+		cancel:function(){
+			this.mode = "LIST_MODE";
 		}
 	}
 });
@@ -72,7 +100,7 @@ app.service('baseInput', [ function() {
 	baseInput.base = function(scope, attrs) {
 		scope.id = attrs.id;
 		scope.label = i18n(attrs.label);
-		scope.tooltip = i18n(attrs.tooltip);
+		scope.hint = i18n(attrs.hint);
 
 		scope.hasLabel = function () {
 			return !$.isEmptyObject(attrs.label);
@@ -84,6 +112,23 @@ app.service('baseInput', [ function() {
 			input = ($(input).find(selectorType)[0]);
 
 			$(input).attr("autofocus", "true");
+		}
+	};
+
+	baseInput.maxlength = function(maxlength, element, selectorType) {
+		if (!$.isEmptyObject(maxlength)){
+			var input = $(element).contents()[0];
+			input = ($(input).find(selectorType)[0]);
+
+			$(input).attr("maxlength", maxlength);
+		}
+	};
+
+	baseInput.labelHint = function(labelHint, element) {
+		if(!$.isEmptyObject(labelHint)){
+
+			//console.log("content 0 ",$(element).find("label"));
+			//$(input).attr("title", labelHint);
 		}
 	};
 
@@ -140,7 +185,9 @@ function($parse, $http, baseInput) {
 		link : function(scope, element, attrs, ngModelCtrl) {
 
 			baseInput.base(scope, attrs);
+			baseInput.labelHint(attrs.labelHint, element);
 			baseInput.autofocus(attrs.autofocus, element, "input");
+			baseInput.maxlength(attrs.maxlength, element, "input");
 			baseInput.mask(scope, attrs.mascara);
 
 			scope.placeholder = i18n(attrs.placeholder);
@@ -167,7 +214,9 @@ function($parse, $http, baseInput) {
 		link : function(scope, element, attrs, ngModelCtrl) {
 
 			baseInput.base(scope, attrs);
+			baseInput.labelHint(attrs.labelHint, element);
 			baseInput.autofocus(attrs.autofocus, element, "input");
+			baseInput.maxlength(attrs.maxlength, element, "input");
 			baseInput.mask(scope, "Integer");
 
 			scope.placeholder = attrs.placeholder;
@@ -193,6 +242,7 @@ function($parse, $http, baseInput) {
 		link : function(scope, element, attrs, ngModelCtrl) {
 
 			baseInput.base(scope, attrs);
+			baseInput.labelHint(attrs.labelHint, element);
 			baseInput.autofocus(attrs.autofocus, element, "input");
 			scope.placeholder = attrs.placeholder;
 
@@ -220,6 +270,7 @@ function($parse, $http, baseInput) {
 		link : function(scope, element, attrs, ngModelCtrl) {
 
 			baseInput.base(scope, attrs);
+			baseInput.labelHint(attrs.labelHint, element);
 			baseInput.autofocus(attrs.autofocus, element, "select");
 
 			scope.emptyMessage = attrs.emptyMessage;
@@ -227,8 +278,9 @@ function($parse, $http, baseInput) {
 				scope.emptyMessage = "select.default";
 			}
 
-			if ($.isEmptyObject(attrs.name)) {
-				scope.name = "nome";
+			scope.name = "nome";
+			if (!$.isEmptyObject(attrs.name)) {
+				scope.name = attrs.name;
 			}
 
 			scope.selectValue = function (option) {

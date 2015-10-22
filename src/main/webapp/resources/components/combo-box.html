@@ -3,8 +3,9 @@
 
 	<select id="{{id}}" name="{{id}}"
 		data-toggle="tooltip" data-placement="top"
-		title="{{tooltip}}"
+		title="{{hint}}"
 		ng-model="ngModel"
+		ng-options="selectValue(option) as option[name] for option in options"
 		ng-disabled="ngDisabled"
 		ng-required="ngRequired"
 		ng-change="ngChange();"
@@ -12,6 +13,5 @@
 		class="form-control">
 
 		<option value="">{{emptyMessage}}</option>
-		<option ng-repeat="option in options" value="{{selectValue(option)}}">{{option[name]}}</option>
 	</select>
 </div>

@@ -1,6 +1,14 @@
 'use strict';
 
-app.register.controller('HomeCtrl', ['$scope', '$http', function($scope, $http) {
+app.register.controller('HomeCtrl', ['$scope', '$http', 'baseController', function($scope, $http, baseController) {
+
+	angular.extend($scope, baseController);
+
+	$scope.baseURL="/restfull/controller/pessoa";
+
+	console.log($scope.getURL());
+
+
 	$scope.valor = "esta é o home controller";
 
 	$scope.entity = {};
