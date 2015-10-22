@@ -1,27 +1,5 @@
 'use strict';
 
-/*
-var MyApp = angular.module('MyApp',[]);
-
-MyApp.controller('MyCtrl',function($scope, myService){
-    angular.extend($scope, myService);
-    $scope.myFunc();
-});
-
-MyApp.factory('myService',function(){
-    return {
-        sky: "blue",
-        myFunc: function(){
-            console.log("do stuff 'n what not");
-        },
-        changeSky: function(val) {
-            this.sky = val;
-        }
-    };
-});
-
-*/
-
 app.factory('baseController', function() {
 	return {
 		mode:"LIST_MODE",
