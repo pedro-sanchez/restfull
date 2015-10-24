@@ -1,5 +1,8 @@
 package br.com.pedro.restfull.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -19,6 +22,12 @@ public abstract class GenericController <T extends IEntidade<?>> {
 		return "pong";
 	}
 
+	@POST
+    @Path("/list/{begin}/{end}")
+	public List<?> list(@PathParam("begin") Long begin, @PathParam("end") Long end){
+		return new ArrayList<>();
+	}
+
 	@GET
     @Path("/id/{id}")
 	public String findBy(@PathParam("id") Long noteId){
@@ -33,7 +42,7 @@ public abstract class GenericController <T extends IEntidade<?>> {
 
 	@POST
     @Path("/")
-	public String post(T entity){
+	public String save(T entity){
 		return "postado" + entity.getId();
 	}
 }

@@ -5,9 +5,9 @@ define(['angularAMD', 'angular-route'], function (angularAMD) {
 	        $routeProvider
 	        /** HOME **/
 	        .when('/home', angularAMD.route({
-				templateUrl : 'paginas/home/home.html',
+				templateUrl : 'paginas/pessoa/pessoa-list.html',
 				controller: 'HomeCtrl',
-				controllerUrl: 'paginas/home/home.js'
+				controllerUrl: 'paginas/pessoa/pessoa-controler.js'
 			}))
 	        .when('/outro', angularAMD.route({
 	    		templateUrl : 'paginas/outro/outro.html',

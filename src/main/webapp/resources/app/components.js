@@ -34,40 +34,21 @@ app.factory('baseController', function() {
 			this.entity = {};
 			this.reset();
 		},
-		newRegister:function(){
-			this.baseReset();
-			this.mode = "EDIT_MODE";
-			loadDependencies();
-		},
-		editRegister:function(){
-			if (!this.hasSelected()) {
-				//TODO error message
-				return;
-			}
-
-			this.baseReset();
-			//TODO do get call
-			this.mode = "EDIT_MODE";
-			loadDependencies();
-		},
-		deleteRegister:function(){
-			if (!this.hasSelected()) {
-				//TODO error message
-				return;
-			}
-
-			//TODO do delete call
-		},
 		save:function(){
-			//TODO do save call
-			this.cancel();
+			$http.post(this.baseURL, this.entity).success(function() {
+				console.log("fw.save.success");
+				this.cancel();
+			});
 		},
 		savePlus:function(){
-			//TODO do save call
-			this.baseReset();
+			$http.post(this.baseURL, this.entity).success(function() {
+				console.log("fw.save.success");
+				this.baseReset();
+			});
 		},
 		cancel:function(){
 			this.mode = "LIST_MODE";
+			//TODO dimiss modal
 		}
 	}
 });
@@ -280,7 +261,7 @@ function($parse, $http, baseInput) {
         	id: '=id',
         	label: '=label',
         	ngDisabled: '=',
-        	ngClick: '&'
+        	onClick: '&'
         },
 		templateUrl : 'public/resources/components/button.html',
 		link : function(scope, element, attrs, ngModelCtrl) {
@@ -292,9 +273,6 @@ function($parse, $http, baseInput) {
 				return !$.isEmptyObject(attrs.icon);
 			}
 
-			scope.internalClick = function () {
-				ngClick();
-			}
 		}
 	};
 }]);
@@ -352,9 +330,56 @@ function($parse, $http, baseInput) {
 			scope.no = i18n(scope.no);
 			scope.noTitle = i18n(scope.noTitle);
 
-			scope.internalClick = function () {
+			scope.onClick = function () {
 				confirmDialog(scope.title, scope.message, scope.yes, scope.yesTitle, scope.yesCallback, scope.no, scope.noTitle, scope.noCallback);
 			}
+		}
+	};
+}]);
+
+app.directive('listButton', ['$parse', '$http', 'baseInput',
+function($parse, $http, baseInput) {
+	return {
+		restrict : 'E',
+        transclude: true,
+        scope: {
+        	'':'=',
+            reset: '&',
+            loadDependencies: '&',
+            hasSelected: '&'
+        },
+		templateUrl : 'public/resources/components/list-button.html',
+		link : function(scope, element, attrs, ngModelCtrl) {
+			scope.newRegister = function(){
+				scope.reset();
+				scope.mode = "EDIT_MODE";
+				console.log("newRegister");
+				scope.loadDependencies();
+			};
+
+			scope.editRegister=function(){
+				console.log("editRegister");
+				if (!scope.hasSelected()) {
+					//TODO error message
+					return;
+				}
+
+				scope.reset();
+				//TODO do get call
+				scope.mode = "EDIT_MODE";
+				this.loadDependencies();
+			};
+
+			scope.deleteRegister=function(){
+				console.log("deleteRegister");
+				if (!scope.hasSelected()) {
+					//TODO error message
+					return;
+				}
+
+
+				//TODO do delete call
+			};
 		}
 	};
 }]);
@@ -380,6 +405,7 @@ function($parse, $http, baseInput) {
 		}
 	};
 }]);
+
 
 app.directive('accordion', ['$parse', '$http', 'baseInput',
 function($parse, $http, baseInput) {

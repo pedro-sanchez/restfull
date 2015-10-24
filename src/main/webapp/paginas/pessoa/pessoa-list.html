@@ -1,7 +1,11 @@
-<panel panel-class="panel-primary" panel-title="bla bla">
-	testejakjkajdkjakdj
+<panel panel-class="panel-primary" panel-title="title.pessoa" icon="glyphicon glyphicon-cloud">
+	<form name="pessoaForm">
+		<div class="panel-body">
+		</div>
+		<list-button entity="entity" mode="mode" reset="baseReset();" load-dependencies="loadDependencies();" has-selected="hasSelected();"></list-button>
+	</form>
 </panel>
-
+<!--
 <panel panel-class="panel-primary" panel-title="ble ble" icon="glyphicon glyphicon-cloud">
 	jjioqiuieioqu
 </panel>
@@ -51,7 +55,7 @@
 	{{entity.sobrenome}}
 
 
-	<!-- <check-box id="ckSelection"
+	<check-box id="ckSelection"
 			label="label.pessoa.selecionado"
 			hint="tooltip.pessoa.selecionado"
 			ng-model="entity.selecionado"
@@ -60,7 +64,7 @@
 	</check-box>
 
 
-	{{entity.selecionado}} -->
+	{{entity.selecionado}}
 
 	<combo-box id="cmbEstado"
 			label="label.pessoa.estado"
@@ -79,4 +83,4 @@
 
 	<confirm-button id="btnSave" label="fw.delete" title="delete.title" message="delete.message" class="btn-danger" icon="glyphicon glyphicon-minus" yes-callback="remover();" no-callback="naoRemover();"></confirm-button>
 
-</form>
+</form> -->
