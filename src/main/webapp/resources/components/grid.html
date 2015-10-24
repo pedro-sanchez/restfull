@@ -1,0 +1,25 @@
+<div id="row clearfix">
+	<div class="table-responsive">
+		<table class="table table-striped table-bordered table-hover table-condensed table-selection" style="margin: 0px !important;">
+			<thead class="table-header">
+				<tr ng-repeat='header in headers'>
+					<th class="{{header.class}}">{{i18n(header.label);}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat='item in list'>
+					<!-- <td>
+						<button type="button" ng-click="editar(entidade)" class="btn btn-primary btn-xs" translate title="label.editar">
+							<span class="glyphicon glyphicon-pencil"></span>
+						</button>
+						<button type="button" ng-click="remover(entidade);" class="btn btn-danger btn-xs" translate title="label.remover">
+							<span class="glyphicon glyphicon-remove"></span>
+						</button>
+					</td>
+					<td>{{ entidade.chave }}</td>
+					<td>{{ entidade.valor }}</td> -->
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
