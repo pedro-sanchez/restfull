@@ -4,7 +4,7 @@ app.factory('baseController', function() {
 	return {
 		mode:"LIST_MODE",
 		baseURL:"",
-		entity:{},
+		entity:{'nome':'pedro'},
 		selectedId:null,
 		itens:[],
 		getURL:function(){

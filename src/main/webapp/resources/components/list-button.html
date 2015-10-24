@@ -1,28 +1,32 @@
 <div class="panel-footer modal-footer">
-	<base-button id="btnNew"
-		label="fw.btn.new"
-		hint="fw.btn.new.tooltip"
-		class="btn-success"
-		on-click="newRegister();"
-		icon="glyphicon glyphicon-file">
-	</base-button>
+	<div class="pull-left" ng-transclude>
+	</div>
+	<div class="pull-right">
+		<base-button id="btnNew"
+			label="fw.btn.new"
+			hint="fw.btn.new.tooltip"
+			class="btn-success"
+			on-click="newRegister();"
+			icon="glyphicon glyphicon-file">
+		</base-button>
 
-	<base-button id="btnEdit"
-		label="fw.btn.edit"
-		hint="fw.btn.edit.tooltip"
-		class="btn-primary"
-		on-click="editRegister();"
-		icon="glyphicon glyphicon-pencil">
-	</base-button>
+		<base-button id="btnEdit"
+			label="fw.btn.edit"
+			hint="fw.btn.edit.tooltip"
+			class="btn-primary"
+			on-click="editRegister();"
+			icon="glyphicon glyphicon-pencil">
+		</base-button>
 
-	<confirm-button id="btnDelete"
-		label="fw.btn.delete"
-		hint="fw.btn.delete.tooltip"
-		title="fw.title.delete"
-		message="fw.msg.delete"
-		class="btn-danger"
-		icon="glyphicon glyphicon-trash"
-		yes-callback="deleteRegister();"
-		>
-	</confirm-button>
+		<confirm-button id="btnDelete"
+			label="fw.btn.delete"
+			hint="fw.btn.delete.tooltip"
+			title="fw.title.delete"
+			message="fw.msg.delete"
+			class="btn-danger"
+			icon="glyphicon glyphicon-trash"
+			yes-callback="deleteRegister();"
+			>
+		</confirm-button>
+	</div>
 </div>

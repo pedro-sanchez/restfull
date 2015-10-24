@@ -11,7 +11,7 @@ app.register.controller('HomeCtrl', ['$scope', '$http', 'baseController', functi
 
 	$scope.valor = "esta é o home controller";
 
-	$scope.entity = {};
+	//$scope.entity = {};
 	$scope.data = {};
 
 
