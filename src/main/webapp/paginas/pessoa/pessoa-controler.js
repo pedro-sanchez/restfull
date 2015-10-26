@@ -6,9 +6,6 @@ app.register.controller('HomeCtrl', ['$scope', '$http', 'baseController', functi
 
 	$scope.baseURL="/restfull/controller/pessoa";
 
-	console.log($scope.getURL());
-
-
 	$scope.valor = "esta é o home controller";
 
 	//$scope.entity = {};

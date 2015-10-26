@@ -433,3 +433,98 @@ function($parse, $http, baseInput) {
 }]);
 
 
+app.directive('oi', ['$parse', '$http', 'baseInput',
+function($parse, $http, baseInput) {
+
+	return {
+		restrict : 'E',
+        transclude: true,
+        replace: true,
+        scope: {
+        	label: '=label',
+        	list: '=',
+        },
+		templateUrl : 'public/resources/components/oi.html',
+		link : function(scope, element, attrs) {
+			scope.label = i18n(attrs.label);
+
+			console.log("teste", scope.list);
+			console.log("attr teste", attrs.list);
+		}
+	};
+}]);
+
+
+app.directive('dataTable', ['$parse', '$http', 'baseInput',
+function($parse, $http, baseInput) {
+	return {
+		restrict : 'E',
+        transclude: true,
+        replace: true,
+        scope: {
+        	list: '=',
+        },
+		templateUrl : 'public/resources/components/data-table.html',
+		link : function(scope, element, attrs) {
+		/*	scope.headerComplete = false;
+			scope.headers = [];
+
+			scope.addHeader = function(newHeader){
+				if (scope.headerComplete) {
+					return;
+				}
+
+				for (var index = 0, size = scope.headers.length; index < size; index++) {
+					var header = scope.headers[index];
+					if (header.headerKey == newHeader.headerKey ) {
+						scope.headerComplete = true;
+						return;
+					}
+				}
+
+				newHeader.label = i18n(newHeader.headerKey);
+				scope.headers.push(newHeader);
+			}
+
+			scope.ping = function(){
+				alert("oiaaaa");
+			}*/
+
+		}
+	};
+}]);
+
+
+app.directive('column', ['$parse', '$http', 'baseInput',
+function($parse, $http, baseInput) {
+	return {
+		restrict : 'E',
+        transclude: true,
+        scope: {
+        	ping:'&ping',
+        	addHeader:'&addHeader',
+        },
+		templateUrl : 'public/resources/components/column.html',
+		link : function(scope, element, attrs, ngModelCtrl) {
+			var columnField = attrs.columnField;
+
+			var header = {'headerKey':attrs.label, 'class': attrs.class};
+
+			scope.ping();
+			//console.log(scope.teste);
+/*
+			scope.$parent.ping();
+			scope.$parent.addHeader(header);*/
+
+			/*label
+			columnField
+			sortable
+			class
+			labelHint
+			columnHint*/
+
+		}
+	};
+}]);
+
+

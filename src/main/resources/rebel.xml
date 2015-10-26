@@ -8,11 +8,6 @@
 
 	<web>
 		<link target="/">
-			<dir name="/home/pedro/workspace8/restfull/target/m2e-wtp/web-resources">
-				<exclude name="/"/>
-			</dir>
-		</link>
-		<link target="/">
 			<dir name="/home/pedro/workspace8/restfull/src/main/webapp">
 			</dir>
 		</link>
