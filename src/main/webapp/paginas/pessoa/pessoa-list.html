@@ -5,11 +5,15 @@
 		<div class="panel-body">
 
 			<oi list="estados">
-				<table-body>
-					<td class="col-md-3">{{item.id}}</td>
-					<td class="col-md-2">{{item.nome}}</td>
-				</table-body>
+				<table-header>
+					<div class="col-md-3">id</div>
+					<div class="col-md-9">nome</div>
 
+				</table-header>
+				<table-body>
+					<div class="col-md-3">{{item.id}}</div>
+					<div class="col-md-9">{{item.nome}}</div>
+				</table-body>
 			</oi>
 
 			<!-- <data-table list="estados">

@@ -444,17 +444,40 @@ function($compile, $parse, $http, baseInput) {
         },
 		templateUrl : 'public/resources/components/oi.html',
 		link : function(scope, element, attrs, ctrl, transclude) {
-			var tableRow = element.children().children().children().children().children();
+			var tableHeader = $(element.children().children().children().children()[0]).children();
+
+			var headerAppend = function(value){
+				tableHeader.append(value);
+			}
+
+			var addHeaderColumns = function(){
+				headerAppend("bla");
+			}
+
+			var tableRow = $(element.children().children().children().children()[1]).children();
 
 			transclude(scope, function (clone, childScope) {
-				console.log("clone", clone);
-				tableRow.append(clone);
-            });
+				var headerContent = null;
+				var bodyContent = null;
+				for (var index = 0, size = clone.length; index < size; index++) {
+					var element = clone[index];
+					if (element.nodeName == "TABLE-HEADER") {
+						headerContent = $(element);
+					}
 
+					if (element.nodeName == "TABLE-BODY") {
+						bodyContent = $(element);
+					}
+				}
+
+				tableHeader.append(headerContent);
+				tableRow.append(bodyContent);
+            });
 
 
 			tableRow.attr("ng-repeat", "item in list");
 
+			$compile(tableHeader)(scope);
 			$compile(tableRow)(scope);
 
 		}
