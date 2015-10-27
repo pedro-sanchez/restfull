@@ -446,15 +446,28 @@ function($compile, $parse, $http, baseInput) {
 		link : function(scope, element, attrs, ctrl, transclude) {
 			var tableHeader = $(element.children().children().children().children()[0]).children();
 
-			var headerAppend = function(value){
-				tableHeader.append(value);
+			var appender = function(pointAppend, value){
+				var valueAppend = $(value).html().replace(/<div/gi, "<td");
+				pointAppend.append(valueAppend);
 			}
 
-			var addHeaderColumns = function(){
-				headerAppend("bla");
+			var addHeaderColumns = function(label, class){
+				var value = "<td class='"+class+"'>"+label"</td>";
+				appender(tableHeader, value);
 			}
 
 			var tableRow = $(element.children().children().children().children()[1]).children();
+
+			var buildHeader = function(content){
+				for (var index = 0, size = content.length; index < size; index++) {
+					var element = content[index];
+
+					var label = $(element).attr('label');
+					var class = $(element).attr('class');
+
+					addHeaderColumns(label, class);
+				}
+			}
 
 			transclude(scope, function (clone, childScope) {
 				var headerContent = null;
@@ -470,12 +483,19 @@ function($compile, $parse, $http, baseInput) {
 					}
 				}
 
-				tableHeader.append(headerContent);
-				tableRow.append(bodyContent);
+				if ($.isEmptyObject(headerContent)) {
+					buildHeader(bodyContent.children());
+				}
+				else {
+					appender(tableHeader, headerContent);
+				}
+
+				appender(tableRow, bodyContent);
             });
 
 
 			tableRow.attr("ng-repeat", "item in list");
+
 
 			$compile(tableHeader)(scope);
 			$compile(tableRow)(scope);
@@ -533,21 +553,11 @@ function($parse, $http, baseInput) {
 		restrict : 'E',
         transclude: true,
         scope: {
-        	ping:'&ping',
-        	addHeader:'&addHeader',
+        	value:'=',
+        	class:'=',
         },
 		templateUrl : 'public/resources/components/column.html',
 		link : function(scope, element, attrs, ngModelCtrl) {
-			var columnField = attrs.columnField;
-
-			var header = {'headerKey':attrs.label, 'class': attrs.class};
-
-			scope.ping();
-			//console.log(scope.teste);
-/*
-			scope.$parent.ping();
-			scope.$parent.addHeader(header);*/
-
 			/*label
 			columnField
 			sortable

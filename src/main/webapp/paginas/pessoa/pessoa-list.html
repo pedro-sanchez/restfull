@@ -5,14 +5,14 @@
 		<div class="panel-body">
 
 			<oi list="estados">
-				<table-header>
+				<!-- <table-header>
 					<div class="col-md-3">id</div>
 					<div class="col-md-9">nome</div>
 
-				</table-header>
+				</table-header> -->
 				<table-body>
-					<div class="col-md-3">{{item.id}}</div>
-					<div class="col-md-9">{{item.nome}}</div>
+					<column label="label.id" class="col-md-3" value="item.id"></column>
+					<column label="label.nome" class="col-md-9" value="item.nome"></column>
 				</table-body>
 			</oi>
 
@@ -24,6 +24,7 @@
 		<list-button entity="entity" mode="mode" reset="baseReset();" load-dependencies="loadDependencies();" has-selected="hasSelected();"></list-button>
 	</form>
 </panel>
+
 <!--
 <panel panel-class="panel-primary" panel-title="ble ble" icon="glyphicon glyphicon-cloud">
 	jjioqiuieioqu
@@ -40,15 +41,7 @@
 
 <h1>Home: {{valor}}</h1>
 <form name="myForm">
-	<input-text id="txtNomeDiretiva"
-			label="label.pessoa.nomeDiretiva"
-			hint="tooltip.pessoa.nomeDiretiva"
-			placeholder="placeholder.pessoa.nomeDiretiva"
-			mascara="CpfCnpj"
-			ng-model="entity.nome"
-			autofocus="false"
-			ng-required="true">
-	</input-text>
+
 
 	{{entity.nome}}
 
