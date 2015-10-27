@@ -433,26 +433,35 @@ function($parse, $http, baseInput) {
 }]);
 
 
-app.directive('oi', ['$parse', '$http', 'baseInput',
-function($parse, $http, baseInput) {
+app.directive('oi', ['$compile', '$parse', '$http', 'baseInput',
+function($compile, $parse, $http, baseInput) {
 
 	return {
 		restrict : 'E',
-        transclude: true,
-        replace: true,
+        transclude: true, priority: 1,
         scope: {
-        	label: '=label',
         	list: '=',
         },
 		templateUrl : 'public/resources/components/oi.html',
-		link : function(scope, element, attrs) {
-			scope.label = i18n(attrs.label);
+		link : function(scope, element, attrs, ctrl, transclude) {
+			var tableRow = element.children().children().children().children().children();
 
-			console.log("teste", scope.list);
-			console.log("attr teste", attrs.list);
+			transclude(scope, function (clone, childScope) {
+				console.log("clone", clone);
+				tableRow.append(clone);
+            });
+
+
+
+			tableRow.attr("ng-repeat", "item in list");
+
+			$compile(tableRow)(scope);
+
 		}
 	};
 }]);
+
+
 
 
 app.directive('dataTable', ['$parse', '$http', 'baseInput',

@@ -4,15 +4,18 @@
 	<form name="pessoaForm">
 		<div class="panel-body">
 
-			<oi label="tjasdjkhaskj" list="estados">
-				bla ble {{item}}
+			<oi list="estados">
+				<table-body>
+					<td class="col-md-3">{{item.id}}</td>
+					<td class="col-md-2">{{item.nome}}</td>
+				</table-body>
 
 			</oi>
 
-			<data-table list="estados">
+			<!-- <data-table list="estados">
 
 				<td>auhduhahudu</td>
-			</data-table>
+			</data-table> -->
 		</div>
 		<list-button entity="entity" mode="mode" reset="baseReset();" load-dependencies="loadDependencies();" has-selected="hasSelected();"></list-button>
 	</form>
