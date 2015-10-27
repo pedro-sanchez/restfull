@@ -452,7 +452,7 @@ function($compile, $parse, $http, baseInput) {
 			}
 
 			var addHeaderColumns = function(label, class){
-				var value = "<td class='"+class+"'>"+label"</td>";
+				var value = "<td class='"+class+"'>"+i18n(label)+"</td>";
 				appender(tableHeader, value);
 			}
 
