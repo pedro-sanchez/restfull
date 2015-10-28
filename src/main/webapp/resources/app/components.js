@@ -433,7 +433,7 @@ function($parse, $http, baseInput) {
 }]);
 
 
-app.directive('oi', ['$compile', '$parse', '$http', 'baseInput',
+app.directive('grid', ['$compile', '$parse', '$http', 'baseInput',
 function($compile, $parse, $http, baseInput) {
 
 	return {
@@ -442,7 +442,7 @@ function($compile, $parse, $http, baseInput) {
         scope: {
         	list: '=',
         },
-		templateUrl : 'public/resources/components/oi.html',
+		templateUrl : 'public/resources/components/data-table.html',
 		link : function(scope, element, attrs, ctrl, transclude) {
 			var tableHeader = $(element.children().children().children().children()[0]).children();
 			var tableRow = $(element.children().children().children().children()[1]).children();
@@ -540,49 +540,6 @@ function($compile, $parse, $http, baseInput) {
 	};
 }]);
 
-
-
-
-app.directive('dataTable', ['$parse', '$http', 'baseInput',
-function($parse, $http, baseInput) {
-	return {
-		restrict : 'E',
-        transclude: true,
-        replace: true,
-        scope: {
-        	list: '=',
-        },
-		templateUrl : 'public/resources/components/data-table.html',
-		link : function(scope, element, attrs) {
-		/*	scope.headerComplete = false;
-			scope.headers = [];
-
-			scope.addHeader = function(newHeader){
-				if (scope.headerComplete) {
-					return;
-				}
-
-				for (var index = 0, size = scope.headers.length; index < size; index++) {
-					var header = scope.headers[index];
-					if (header.headerKey == newHeader.headerKey ) {
-						scope.headerComplete = true;
-						return;
-					}
-				}
-
-				newHeader.label = i18n(newHeader.headerKey);
-				scope.headers.push(newHeader);
-			}
-
-			scope.ping = function(){
-				alert("oiaaaa");
-			}*/
-
-		}
-	};
-}]);
-
-
 app.directive('column', ['$parse', '$http', 'baseInput',
 function($parse, $http, baseInput) {
 	return {
@@ -595,7 +552,7 @@ function($parse, $http, baseInput) {
 		templateUrl : 'public/resources/components/column.html',
 		link : function(scope, element, attrs, ngModelCtrl) {
 			/*label
-			columnField
+			value
 			sortable
 			class
 			labelHint
