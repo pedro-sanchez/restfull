@@ -432,9 +432,104 @@ function($parse, $http, baseInput) {
 	};
 }]);
 
+app.service('baseGrid', [ function() {
+	var baseGrid = {};
 
-app.directive('grid', ['$compile', '$parse', '$http', 'baseInput',
-function($compile, $parse, $http, baseInput) {
+	baseGrid.configure = function(tableHeader, tableRow, $compile, scope, element, attrs, ctrl, transclude){
+
+
+		var normalizeColumns = function (element){
+			var value= $(element).html();
+
+			var content = element.children();
+			var result = "";
+
+			for (var index = 0, size = content.length; index < size; index++) {
+				var elemento = content[index];
+				var itemValue = $(elemento).wrap('<p/>').parent().html();
+				$(elemento).unwrap();
+				result += "<td>"+itemValue+"</td>";
+
+			}
+
+			tableRow.append(result);
+		}
+
+		var appender = function(pointAppend, value){
+			var valueAppend = value.replace(/<div/gi, "<td");
+			pointAppend.append(valueAppend);
+		}
+
+		var buildTagTd = function(class){
+			var td = "<td";
+			if (!$.isEmptyObject(class)) {
+				td += " class='"+class+"'";
+			}
+			td += ">";
+
+			return td;
+		}
+
+		var addHeaderColumns = function(label, class){
+			var tdStart = buildTagTd(class);
+
+			var headerContent = "";
+			if (!$.isEmptyObject(label)) {
+				headerContent = i18n(label);
+			}
+
+			var tdEnd = "</td>";
+
+			tableHeader.append(tdStart+headerContent+tdEnd);
+		}
+
+
+		var processColumn = function(content){
+			for (var index = 0, size = content.length; index < size; index++) {
+				var element = content[index];
+
+				var label = $(element).attr('label');
+				var class = $(element).attr('class');
+
+				addHeaderColumns(label, class);
+			}
+		}
+
+		transclude(scope, function (clone, childScope) {
+			var headerContent = null;
+			var bodyContent = null;
+			for (var index = 0, size = clone.length; index < size; index++) {
+				var element = clone[index];
+				if (element.nodeName == "TABLE-HEADER") {
+					headerContent = $(element);
+				}
+
+				if (element.nodeName == "TABLE-BODY") {
+					bodyContent = $(element);
+				}
+			}
+
+			if ($.isEmptyObject(headerContent)) {
+				processColumn(bodyContent.children());
+			}
+			else {
+				appender(tableHeader, $(headerContent).html());
+			}
+			normalizeColumns(bodyContent);
+
+        });
+
+		tableRow.attr("ng-repeat", "item in list");
+
+		$compile(tableHeader)(scope);
+		$compile(tableRow)(scope);
+	};
+
+	return baseGrid;
+}]);
+
+app.directive('grid', ['$compile', '$parse', '$http', 'baseGrid',
+function($compile, $parse, $http, baseGrid) {
 
 	return {
 		restrict : 'E',
@@ -447,95 +542,77 @@ function($compile, $parse, $http, baseInput) {
 			var tableHeader = $(element.children().children().children().children()[0]).children();
 			var tableRow = $(element.children().children().children().children()[1]).children();
 
-			var normalizeColumns = function (element){
-				var value= $(element).html();
+			console.log(element.children().children().children().children());
+			baseGrid.configure(tableHeader, tableRow, $compile, scope, element, attrs, ctrl, transclude);
+		}
+	};
+}]);
 
-				var content = element.children();
-				var result = "";
 
-				for (var index = 0, size = content.length; index < size; index++) {
-					var elemento = content[index];
-					var itemValue = $(elemento).wrap('<p/>').parent().html();
-					$(elemento).unwrap();
-					result += "<td>"+itemValue+"</td>";
+app.directive('bla', ['$compile', '$parse', '$http', 'baseGrid',
+function($compile, $parse, $http, baseGrid) {
 
-				}
+	return {
+		restrict : 'E',
+        transclude: true, priority: 1,
+        scope: {
+        	baseUrl:"=",
+        },
+		templateUrl : 'public/resources/components/grid-edit.html',
+		link : function(scope, element, attrs, ctrl, transclude) {
 
-				tableRow.append(result);
+			scope.panelTitle = i18n(attrs.panelTitle);
+			scope.panelClass = attrs.panelClass;
+			scope.icon = attrs.icon;
+			scope.contentId = attrs.contentId;
+			scope.linkId = "lk"+attrs.contentId;
+
+			if ($.isEmptyObject(attrs.icon)) {
+				scope.icon = "glyphicon glyphicon-chevron-down";
 			}
 
-			var appender = function(pointAppend, value){
-				var valueAppend = value.replace(/<div/gi, "<td");
-				pointAppend.append(valueAppend);
+			scope.list = [{"id":1, "nome": "MS", "editing": false},
+			                  {"id":2, "nome": "SP", "editing": false},
+			                  {"id":3, "nome": "PR", "editing": false},
+			                  {"id":4, "nome": "SC", "editing": false},
+			                  {"id":5, "nome": "RS", "editing": false}];
+
+			scope.loadData = false;
+
+			scope.editMode = false;
+
+			scope.edit = function(object){
+				scope.editMode = true;
+				object.editing = true;
+
+				console.log("edit");
+			}
+			scope.save = function(object){
+				scope.editMode = false;
+				object.editing = false;
+
+				console.log("save");
+			}
+			scope.cancel = function(object){
+				scope.editMode = false;
+				object.editing = false;
+
+				console.log("cancel");
 			}
 
-			var buildTagTd = function(class){
-				var td = "<td";
-				if (!$.isEmptyObject(class)) {
-					td += " class='"+class+"'";
-				}
-				td += ">";
+			scope.remove = function(object){
 
-				return td;
-			}
-
-			var addHeaderColumns = function(label, class){
-				var tdStart = buildTagTd(class);
-
-				var headerContent = "";
-				if (!$.isEmptyObject(label)) {
-					headerContent = i18n(label);
-				}
-
-				var tdEnd = "</td>";
-
-				tableHeader.append(tdStart+headerContent+tdEnd);
+				console.log("remove");
 			}
 
 
-			var processColumn = function(content){
-				for (var index = 0, size = content.length; index < size; index++) {
-					var element = content[index];
 
-					var label = $(element).attr('label');
-					var class = $(element).attr('class');
+			var base = $(element.children().children()[1]).children().children().children().children().children();
 
-					addHeaderColumns(label, class);
-				}
-			}
+			var tableHeader = $(base[0]).children();
+			var tableRow = $(base[1]).children();
 
-			transclude(scope, function (clone, childScope) {
-				var headerContent = null;
-				var bodyContent = null;
-				for (var index = 0, size = clone.length; index < size; index++) {
-					var element = clone[index];
-					if (element.nodeName == "TABLE-HEADER") {
-						headerContent = $(element);
-					}
-
-					if (element.nodeName == "TABLE-BODY") {
-						bodyContent = $(element);
-					}
-				}
-
-				if ($.isEmptyObject(headerContent)) {
-					processColumn(bodyContent.children());
-				}
-				else {
-					appender(tableHeader, $(headerContent).html());
-				}
-				normalizeColumns(bodyContent);
-
-            });
-
-
-			tableRow.attr("ng-repeat", "item in list");
-
-
-			$compile(tableHeader)(scope);
-			$compile(tableRow)(scope);
-
-
+			baseGrid.configure(tableHeader, tableRow, $compile, scope, element, attrs, ctrl, transclude);
 		}
 	};
 }]);
