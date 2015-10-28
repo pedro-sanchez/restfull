@@ -12,7 +12,15 @@
 				</table-header> -->
 				<table-body>
 					<column label="label.id" class="col-md-3" value="item.id"></column>
-					<column label="label.nome" class="col-md-9" value="item.nome"></column>
+					<input-text id="txtSobrenomeDiretiva"
+							label="label.pessoa.sobrenomeDiretiva"
+							hint="tooltip.pessoa.sobrenomeDiretiva"
+							placeholder="placeholder.pessoa.sobrenomeDiretiva"
+							ng-model="item.nome"
+							autofocus="false"
+							class="col-md-9"
+							ng-required="true">
+					</input-text>
 				</table-body>
 			</oi>
 

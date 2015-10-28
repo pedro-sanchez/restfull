@@ -445,20 +445,55 @@ function($compile, $parse, $http, baseInput) {
 		templateUrl : 'public/resources/components/oi.html',
 		link : function(scope, element, attrs, ctrl, transclude) {
 			var tableHeader = $(element.children().children().children().children()[0]).children();
+			var tableRow = $(element.children().children().children().children()[1]).children();
+
+			var normalizeColumns = function (element){
+				var value= $(element).html();
+
+				var content = element.children();
+				var result = "";
+
+				for (var index = 0, size = content.length; index < size; index++) {
+					var elemento = content[index];
+					var itemValue = $(elemento).wrap('<p/>').parent().html();
+					$(elemento).unwrap();
+					result += "<td>"+itemValue+"</td>";
+
+				}
+
+				tableRow.append(result);
+			}
 
 			var appender = function(pointAppend, value){
-				var valueAppend = $(value).html().replace(/<div/gi, "<td");
+				var valueAppend = value.replace(/<div/gi, "<td");
 				pointAppend.append(valueAppend);
 			}
 
-			var addHeaderColumns = function(label, class){
-				var value = "<td class='"+class+"'>"+i18n(label)+"</td>";
-				appender(tableHeader, value);
+			var buildTagTd = function(class){
+				var td = "<td";
+				if (!$.isEmptyObject(class)) {
+					td += " class='"+class+"'";
+				}
+				td += ">";
+
+				return td;
 			}
 
-			var tableRow = $(element.children().children().children().children()[1]).children();
+			var addHeaderColumns = function(label, class){
+				var tdStart = buildTagTd(class);
 
-			var buildHeader = function(content){
+				var headerContent = "";
+				if (!$.isEmptyObject(label)) {
+					headerContent = i18n(label);
+				}
+
+				var tdEnd = "</td>";
+
+				tableHeader.append(tdStart+headerContent+tdEnd);
+			}
+
+
+			var processColumn = function(content){
 				for (var index = 0, size = content.length; index < size; index++) {
 					var element = content[index];
 
@@ -484,13 +519,13 @@ function($compile, $parse, $http, baseInput) {
 				}
 
 				if ($.isEmptyObject(headerContent)) {
-					buildHeader(bodyContent.children());
+					processColumn(bodyContent.children());
 				}
 				else {
-					appender(tableHeader, headerContent);
+					appender(tableHeader, $(headerContent).html());
 				}
+				normalizeColumns(bodyContent);
 
-				appender(tableRow, bodyContent);
             });
 
 
@@ -499,6 +534,7 @@ function($compile, $parse, $http, baseInput) {
 
 			$compile(tableHeader)(scope);
 			$compile(tableRow)(scope);
+
 
 		}
 	};
