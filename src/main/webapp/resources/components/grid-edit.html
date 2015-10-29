@@ -22,11 +22,11 @@
 							<tr>
 								<td class="col-xs-1" >
 									<span ng-show="!item.editing" ng-disabled="editMode && !item.editing">
-										<button ng-disabled="item.editing" type="button" ng-click="edit(item);" class="btn btn-primary btn-sm" translate title="label.editar">
+										<button ng-disabled="editMode" type="button" ng-click="edit(item);" class="btn btn-primary btn-sm" translate title="label.editar">
 											<span class="glyphicon glyphicon-pencil"></span>
 										</button>
 
-										<button ng-disabled="item.editing" type="button" ng-click="remove(item);" class="btn btn-danger btn-sm" translate title="label.remover">
+										<button ng-disabled="editMode" type="button" ng-click="remove(item);" class="btn btn-danger btn-sm" translate title="label.remover">
 											<span class="glyphicon glyphicon-trash"></span>
 										</button>
 									</span>

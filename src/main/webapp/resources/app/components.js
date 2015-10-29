@@ -489,9 +489,25 @@ app.service('baseGrid', [ function() {
 				var element = content[index];
 
 				var label = $(element).attr('label');
+				$(content[index]).removeAttr('label');
+
 				var class = $(element).attr('class');
 
 				addHeaderColumns(label, class);
+
+				var classes = class.split(" ");
+
+				var newClass = "";
+				for (var idx = 0, cssSize = classes.length; idx < cssSize; idx++) {
+					var cssClass = classes[idx];
+
+					if (!(cssClass.startsWith('col-xs') || cssClass.startsWith('col-sm') || cssClass.startsWith('col-md') || cssClass.startsWith('col-lg'))) {
+						newClass += cssClass + " ";
+					}
+
+				}
+
+				$(element).attr('class', newClass);
 			}
 		}
 
