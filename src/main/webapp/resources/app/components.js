@@ -446,8 +446,21 @@ app.service('baseGrid', [ function() {
 
 			for (var index = 0, size = content.length; index < size; index++) {
 				var elemento = content[index];
+				var disabledValue = $(elemento).attr('ng-disabled');
+
+				if ($.isEmptyObject(disabledValue)) {
+					disabledValue = "";
+				}
+
+				disabledValue += " !item.editing";
+
+				$(elemento).attr('ng-disabled', disabledValue);
+
 				var itemValue = $(elemento).wrap('<p/>').parent().html();
 				$(elemento).unwrap();
+
+				itemValue = itemValue.replace("form-group", "");
+
 				result += "<td>"+itemValue+"</td>";
 
 			}
@@ -558,7 +571,6 @@ function($compile, $parse, $http, baseGrid) {
 			var tableHeader = $(element.children().children().children().children()[0]).children();
 			var tableRow = $(element.children().children().children().children()[1]).children();
 
-			console.log(element.children().children().children().children());
 			baseGrid.configure(tableHeader, tableRow, $compile, scope, element, attrs, ctrl, transclude);
 		}
 	};
@@ -572,7 +584,12 @@ function($compile, $parse, $http, baseGrid) {
 		restrict : 'E',
         transclude: true, priority: 1,
         scope: {
-        	baseUrl:"=",
+        	list:"=",
+        	masterValue:"=",
+        	setData: '&',
+        	loadDependencies: '&',
+        	saveData: '&',
+        	removeData: '&',
         },
 		templateUrl : 'public/resources/components/grid-edit.html',
 		link : function(scope, element, attrs, ctrl, transclude) {
@@ -587,39 +604,124 @@ function($compile, $parse, $http, baseGrid) {
 				scope.icon = "glyphicon glyphicon-chevron-down";
 			}
 
-			scope.list = [{"id":1, "nome": "MS", "editing": false},
-			                  {"id":2, "nome": "SP", "editing": false},
-			                  {"id":3, "nome": "PR", "editing": false},
-			                  {"id":4, "nome": "SC", "editing": false},
-			                  {"id":5, "nome": "RS", "editing": false}];
+			var initalizeList = function(){
+				console.log("initalizeList", scope.list);
+				if ($.isEmptyObject(scope.list) || scope.list.length<=0){
+					scope.list=[];
 
-			scope.loadData = false;
+					console.log("cleanList");
+					return;
+				}
+
+				for (var i = 0, size = scope.list.length; i < size; i++) {
+					var itemValue = scope.list[i];
+					itemValue.editing = false;
+				}
+			}
+
+
+			if (!$.isEmptyObject(attrs.list)){
+				initalizeList();
+			}
+			else if (!$.isEmptyObject(attrs.baseUrl) && !$.isEmptyObject(attrs.masterField) && !$.isEmptyObject(scope.masterValue)) {
+				var urlList = attrs.baseUrl + "list/"+ attrs.masterField + "/" + scope.masterValue.id;
+
+				$http.get(urlList).success(function(result) {
+					scope.list = result;
+					initalizeList();
+				});
+			}
 
 			scope.editMode = false;
+
+			var setMasterValues = function(object){
+				if (!$.isEmptyObject(scope.setData)) {
+					scope.setData(object);
+				}
+				else if (!$.isEmptyObject(attrs.masterField) && !$.isEmptyObject(scope.masterValue)) {
+					object[attrs.masterField] = scope.masterValue;
+				}
+			}
+
+			scope.newItem = function(){
+				var object = {notPersisted:true};
+				setMasterValues(object);
+
+				scope.edit(object);
+
+				scope.list.push(object);
+
+			}
 
 			scope.edit = function(object){
 				scope.editMode = true;
 				object.editing = true;
 
-				console.log("edit");
+				if (!$.isEmptyObject(scope.loadDependencies)) {
+					scope.loadDependencies(scope, object);
+				}
+
 			}
+
 			scope.save = function(object){
 				scope.editMode = false;
 				object.editing = false;
 
-				console.log("save");
+				delete object["notPersisted"];
+
+				if (!$.isEmptyObject(scope.saveData)) {
+					scope.saveData(object);
+				}
+				else if (!$.isEmptyObject(attrs.baseUrl)) {
+					var urlSave = attrs.baseUrl;
+
+					$http.post(urlSave, object).success(function(result) {
+						$.extend( object, result );
+
+						console.log("message savesucess");
+					});
+				}
+
+
 			}
 			scope.cancel = function(object){
 				scope.editMode = false;
 				object.editing = false;
 
-				console.log("cancel");
+				if (object.notPersisted) {
+					if (scope.list.length > 0) {
+						var lastIndex =scope.list.length - 1;
+						scope.list.splice(lastIndex, 1);
+					}
+				}
+
 			}
 
 			scope.remove = function(object){
-
-				console.log("remove");
+				if (!$.isEmptyObject(scope.removeData)) {
+					scope.removeData(object);
+					removeGrid(object);
+				}
+				else{
+					removeGrid(object);
+				}
 			}
+
+			var findIndex = function(object) {
+				for (var i = 0; i < scope.list.length; i++) {
+					if (object.id == scope.list[i].id) {
+						return i;
+					}
+				}
+			}
+
+			var removeGrid = function(object) {
+				var index = findIndex(object)
+
+				if (index >= 0) {
+					scope.list.splice(index, 1);
+				}
+			};
 
 
 

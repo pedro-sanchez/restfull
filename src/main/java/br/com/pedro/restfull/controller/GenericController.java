@@ -36,13 +36,13 @@ public abstract class GenericController <T extends IEntidade<?>> {
 
 	@DELETE
     @Path("/id/{id}")
-	public String remove(@PathParam("id") Long noteId){
-		return "removed";
+	public void remove(@PathParam("id") Long noteId){
 	}
 
 	@POST
     @Path("/")
-	public String save(T entity){
-		return "postado" + entity.getId();
+	public T save(T entity){
+		System.out.println("save");
+		return entity;
 	}
 }

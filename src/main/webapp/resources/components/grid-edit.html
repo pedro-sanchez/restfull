@@ -10,17 +10,17 @@
 	<div id="{{contentId}}" class="panel-collapse collapse paddedContainer in" >
 		<div class="panel-body">
 			<div id="row clearfix">
-				<div class="table-responsive">
+				<div class="table-responsive" ng-show="list.length > 0">
 					<table class="table table-striped table-bordered table-hover table-condensed table-selection" style="margin: 0px !important;">
 						<thead class="table-header">
 							<tr>
-								<td  class="col-xs-1">aaa{{i18n(label.acao)}}</td>
+								<td  class="col-xs-1">{{i18n(label.acao)}}</td>
 							</tr>
 						</thead>
 						<tbody>
 
 							<tr>
-								<td class="col-xs-1" >
+								<td class="col-xs-1 text-center" >
 									<span ng-show="!item.editing" ng-disabled="editMode && !item.editing">
 										<button ng-disabled="editMode" type="button" ng-click="edit(item);" class="btn btn-primary btn-sm" translate title="label.editar">
 											<span class="glyphicon glyphicon-pencil"></span>
@@ -43,6 +43,15 @@
 							</tr>
 						</tbody>
 					</table>
+				</div>
+			</div>
+
+			<div class="row sgr-row">
+				<div class="col-xs-12 text-center form-group sgr-form-group">
+					<button ng-disabled="editMode" type="button" ng-click="newItem()" class="btn btn-success">
+							<i class="glyphicon glyphicon-plus"></i>
+							<span>{{i18n(label.adicionar)}}</span>
+					</button>
 				</div>
 			</div>
 		</div>
