@@ -35,8 +35,9 @@ public abstract class GenericController <T extends IEntidade<?>> {
 	}
 
 	@DELETE
-    @Path("/id/{id}")
+    @Path("/{id}")
 	public void remove(@PathParam("id") Long noteId){
+		System.out.println("remove");
 	}
 
 	@POST

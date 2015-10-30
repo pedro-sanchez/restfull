@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -40,7 +41,9 @@ public class CidadeController extends GenericController<Cidade>{
 	}
 
 	@Override
-	public void remove(Long id) {
+	@DELETE
+    @Path("/{id}")
+	public void remove(@PathParam("id") Long id){
 		data.remove(id-1);
 
 		super.remove(id);
