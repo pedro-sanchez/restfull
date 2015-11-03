@@ -577,7 +577,7 @@ function($compile, $parse, $http, baseGrid) {
 }]);
 
 
-app.directive('bla', ['$compile', '$parse', '$http', 'baseGrid',
+app.directive('gridEdit', ['$compile', '$parse', '$http', 'baseGrid',
 function($compile, $parse, $http, baseGrid) {
 
 	return {
@@ -605,11 +605,8 @@ function($compile, $parse, $http, baseGrid) {
 			}
 
 			var initalizeList = function(){
-				console.log("initalizeList", scope.list);
 				if ($.isEmptyObject(scope.list) || scope.list.length<=0){
 					scope.list=[];
-
-					console.log("cleanList");
 					return;
 				}
 
@@ -668,6 +665,7 @@ function($compile, $parse, $http, baseGrid) {
 				object.editing = false;
 
 				delete object["notPersisted"];
+				delete object["editing"];
 
 				if (!$.isEmptyObject(scope.saveData)) {
 					scope.saveData(object);
@@ -722,8 +720,6 @@ function($compile, $parse, $http, baseGrid) {
 					scope.list.splice(index, 1);
 				}
 			};
-
-
 
 			var base = $(element.children().children()[1]).children().children().children().children().children();
 
